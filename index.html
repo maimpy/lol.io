@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Кнопка, яка відступає від миші і перекидає на сайт</title>
+	<style>
+		.moving-button {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			padding: 10px;
+			background-color: #4CAF50;
+			color: white;
+			border: none;
+			cursor: pointer;
+		}
+
+		.moving-button:hover {
+			animation: move-away 1s ease-in-out infinite;
+		}
+
+		@keyframes move-away {
+			0% {
+				transform: translate(-50%, -50%);
+			}
+			50% {
+				transform: translate(-55%, -55%);
+			}
+			100% {
+				transform: translate(-50%, -50%);
+			}
+		}
+	</style>
+</head>
+<body>
+	<button class="moving-button" onclick="redirectTo('vova-den.html')">Кнопка, яка відступає від миші і перекидає на сайт</button>
+
+	<script>
+		var button = document.querySelector(".moving-button");
+		var body = document.querySelector("body");
+
+		function redirectTo(url) {
+			window.location.href = url;
+		}
+
+		body.addEventListener("mousemove", function(event) {
+			var x = event.clientX;
+			var y = event.clientY;
+
+			var buttonBox = button.getBoundingClientRect();
+			var buttonX = buttonBox.left + (buttonBox.width / 2);
+			var buttonY = buttonBox.top + (buttonBox.height / 2);
+
+			var dx = x - buttonX;
+			var dy = y - buttonY;
+
+			var distance = Math.sqrt(dx*dx + dy*dy);
+
+			if (distance < 150) {
+				var newX = buttonX - dx/10;
+				var newY = buttonY - dy/10;
+				button.style.left = newX + "px";
+				button.style.top = newY + "px";
+			}
+		});
+	</script>
+</body>
+</html>
